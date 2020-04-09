@@ -35,5 +35,55 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
       firebase serve -p 5000 -o 127.0.0.1
 
   
+7. There are several types of cloud functions that triggers in 
+    different way:
+      a. database events
+      b. auth events
+      c. storage events
+      d. analytics events
+      e. HTTPs triggers (We use them directly by end points
+          just like using api)
+          There are two type of http function, callable one and
+          reqest one. 
+  
+8. To use cloud functions, first we create them locally, then we 
+    deploy them on firebase to be on server side.
 
+9. The example of HTTPS request functions:
 
+      exports.randomNumber = functions.https.onRequest((req, res) => {
+        const number = Math.round(Math.random() * 100);
+        res.send(number.toString());
+      });
+
+    Then you have to deploy this function on firebase:
+        firebase deploy --only functions
+  
+  after deploying you can see this function in function tab 
+  in firebase console, and there is end point for this function.
+
+10. also There is Logs, Health and usage tab in firebase console,
+    There are some, pre existing logs, but you can also write in
+    this logs by using console.log:
+
+    exports.toTheGoogle = functions.https.onRequest((req, res) => {
+      console.log('salam');
+      res.redirect('https://google.com');
+    })
+
+11. The example of https callable functions:
+
+    exports.sayHello = functions.https.onCall((data, context) => {
+      const name = data.name;
+      return `hello ghasem`;
+    });
+
+  You can call this functions from UI:
+      
+      button.addEventListener('click', () => {
+        // get functio reference
+        const sayHello = firebase.functions().httpsCallable('sayHello');
+        sayHello({name: 'alireza'}).then(result => {
+          console.log(result.data);
+        });
+      });
