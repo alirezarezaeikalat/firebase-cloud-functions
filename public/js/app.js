@@ -1,10 +1,14 @@
 $(document).ready(function () {
-  // materialize functions
-  $('.sidenav').sidenav();
-  $('.modal').modal();
+  var sidenav = document.querySelector(".sidenav");
+  // sidenav initializing
+  M.Sidenav.init(sidenav);
+  sidenav = M.Sidenav.getInstance(sidenav);
+    // add request modal initializing 
+  var addModal = document.querySelector('#add-request-modal');
+  var instance = M.Modal.init(addModal);
   
-  /// modal close button
-  var addModal = M.Modal.getInstance($('.modal')[0]);
+  /// add request modal close button
+  addModal = M.Modal.getInstance($('#add-request-modal')[0]);
   $('#cancel').click(function (e) {
     e.preventDefault();
     $('#add-form')[0].reset();
@@ -12,14 +16,6 @@ $(document).ready(function () {
   })
 });
 
-const button = document.querySelector('.call');
 
-button.addEventListener('click', () => {
-    // get functio reference
-    const sayHello = firebase.functions().httpsCallable('sayHello');
-    sayHello({name: 'alireza'}).then(result => {
-      console.log(result.data);
-    });
-});
 
 

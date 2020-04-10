@@ -1,17 +1,11 @@
 const functions = require('firebase-functions');
 
-// http request 1
-exports.randomNumber = functions.https.onRequest((req, res) => {
-  const number = Math.round(Math.random() * 100);
-  res.send(number.toString());
+// auth trigger 
+
+exports.newUserSignup = functions.auth.user().onCreate(user => {
+  console.log('user created', user.email, user.uid);
 });
 
-exports.toGoogle = functions.https.onRequest((req, res) => {
-  console.log('salam')
-  res.redirect('https://www.google.com');
-});
-
-exports.sayHello = functions.https.onCall((data, context) => {
-  const name = data.name;
-  return `Hello ${name}`;
+exports.userDeleted = functions.auth.user().onDelete((user) => {
+  console.log("user deleted", user.email, user.uid);
 });

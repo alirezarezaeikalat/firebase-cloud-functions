@@ -10,9 +10,9 @@
     <!-- Material icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custom styles -->
-    <link rel="stylesheet" href="css/styles.css">
-    <title>Cloud functions tutorial</title>
     
+    <title>Cloud functions tutorial</title>
+    <link rel="stylesheet" href="css/styles.css">
   </head>
   <body class="grey lighten-3">
     
@@ -47,7 +47,7 @@
             <i class="fas fa-plus"></i>
           </a>
         </li>
-        <li class="sign-out">
+        <li class="sign-out sidenav-close">
           <a href="#">
             <span>sign-out</span>
             <i class="fas fa-sign-out-alt"></i>
@@ -56,6 +56,61 @@
       </ul>
     </header>
     
+    <!-- hiding modal-->
+    <div id="hiding-modal" class="modal"></div>
+    <!-- Login modal -->
+    <div id="login-modal" class="modal center-align" style="max-width: 600px;">
+      <div class="modal-content container">
+        <h4>Login</h4>
+        <div class="row">
+          <form id="login-form" class="col s12">
+            <div class="input-field">
+              <i class="material-icons prefix">email</i>
+              <input id="login-email" type="email" name="login-email">
+              <label for="login-email">Email</label>
+            </div>
+            <div class="input-field">
+              <i class="material-icons prefix">lock</i>
+              <input type="password" id="login-password" name="login-password">
+              <label for="login-password">Enter your password</label>
+            </div>
+            <button class="waves-effect waves-light btn left-align large">
+              Login
+            </button>
+            <p class="error" style="color: coral;"></p>
+          </form>
+          <div class="col s12">No account? <a class="modal-trigger no-account" href="#register-modal">Register instead</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register modal -->
+    <div id="register-modal" class="modal center-align" style="max-width: 600px;">
+      <div class="modal-content container">
+        <h4>Register</h4>
+        <div class="row">
+          <form id="register-form" class="col s12">
+            <div class="input-field">
+              <i class="material-icons prefix">email</i>
+              <input id="register-email" type="email" name="register-email">
+              <label for="register-email">Email</label>
+            </div>
+            <div class="input-field">
+              <i class="material-icons prefix">lock</i>
+              <input type="password" id="register-password" name="register-password">
+              <label for="register-password">Choose your password</label>
+            </div>
+            <button class="waves-effect waves-light btn left-align large">
+              Register
+            </button>
+            <p class="error" style="color:coral;"></p>
+          </form>
+          <div class="col s12">Got an account? <a class="modal-trigger got-account" href="#login-modal">Login instead</a></div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Add request modal -->
     <div id="add-request-modal" class="modal center-align" style="max-width: 600px;">
       <div class="modal-content container">
@@ -78,9 +133,9 @@
           </form>
         </div>
       </div>
-      
     </div>
 
+    <!-- List of requests -->
     <div class="container" style="margin-top: 50px;">
       <ul class="collection with-header">
         <li class="collection-header">
@@ -96,7 +151,6 @@
           </div>
         </li>
       </ul>
-      <button class="btn waves-effect waves-light call">Say hello</button>
     </div>
 
 
@@ -113,5 +167,6 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
   </body>
 </html>

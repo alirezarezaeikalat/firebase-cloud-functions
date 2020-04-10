@@ -28,6 +28,14 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
 
+    [ATTENTION]
+      because we use firebase cli we don't need to initialize the
+      app like we use without cli:
+
+      import firebaseConfig from "../config/firebase-config.js";
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
 6. Then because we use firebase hosting, in this project. we can 
   use development server that is inside firebase-tools to preview
   the project:
@@ -87,3 +95,21 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
           console.log(result.data);
         });
       });
+
+/// Authentication triggers functions 
+
+12. There are some cloud functions that runs based on auth events:
+
+    exports.newUserSignup = functions.auth.user().onCreate(user => {
+      console.log('user created', user.email, user.uid);
+    });
+
+    exports.userDeleted = functions.auth.user().onDelete((user) => {
+      console.log("user created", user.email, user.uid);
+    });
+
+[ATTENTION]
+13. in onCall or onRequest functions we returns value, or response,
+  but in these two auth functions, we don't return anything, if 
+  you check the logs of functions, we get error for that, it is 
+  convention to return PROMISE in these functions.
