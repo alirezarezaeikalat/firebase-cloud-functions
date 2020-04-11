@@ -80,7 +80,7 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
     })
 
 11. The example of https callable functions:
-
+    // context has info about the request
     exports.sayHello = functions.https.onCall((data, context) => {
       const name = data.name;
       return `hello ghasem`;
@@ -108,8 +108,54 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
       console.log("user created", user.email, user.uid);
     });
 
+13. To use firestore, auth, and other capablities in functions,
+ we have to require firebase admin sdk:
+ it is just like firebase object that we use in js files
+
+      require('firebase-admin');
+      admin.initializeApp();
+
+
 [ATTENTION]
-13. in onCall or onRequest functions we returns value, or response,
+14. in onCall or onRequest functions we returns value, or response,
   but in these two auth functions, we don't return anything, if 
   you check the logs of functions, we get error for that, it is 
   convention to return PROMISE in these functions.
+
+      exports.newUserSignup = functions.auth.user().onCreate(user => {
+        return admin.firestore().collection('users').doc(user.uid).set({
+          email: user.email,
+          upvotedOn: []
+        });
+      });
+
+      exports.userDeleted = functions.auth.user().onDelete((user) => {
+        const doc = admin.firestore().collection('users').doc(user.uid);
+        return doc.delete();
+      });
+
+15. To add request to the app, we must check for the conditions of
+    that request, if they are logged in or ... :
+    [pay attention to the return type]
+
+      exports.addRequest = functions.https.onCall((data, context) => {
+        if(!context.auth) {
+          throw new functions.https.HttpsError(
+            'unauthenticated',
+            'Only authenticated users can add requests'
+          );
+        }
+        if(data.text.length > 30) {
+          throw new functions.https.HttpsError(
+            'invalid-argument',
+            'Request must be no more than 30 character long'
+          );
+        }
+        return admin.firestore().collection('requests').add({
+          text: data.text,
+          upvotes: 0
+        }).then((doc) => {
+          console.log('The request has been created');
+          return {};
+        });
+      });

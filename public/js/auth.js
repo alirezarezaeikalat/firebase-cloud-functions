@@ -6,7 +6,6 @@ const options = {
 };
 const hidingOptions = { opacity: 1 };
 const auth = firebase.auth();
-var sidenav = document.querySelector(".sidenav");
 var hidingModal = document.querySelector("#hiding-modal");
 var loginModal = document.querySelector("#login-modal");
 var registerModal = document.querySelector("#register-modal");
@@ -14,9 +13,7 @@ const registerForm = document.querySelector("#register-form");
 const loginForm = document.querySelector("#login-form");
 const signOuts = document.querySelectorAll('.sign-out')
 
-// sidenav initializing
-M.Sidenav.init(sidenav);
-sidenav = M.Sidenav.getInstance(sidenav);
+
 
 
 
@@ -47,9 +44,7 @@ gotAccount.addEventListener('click', (e) => {
 });
 
 
-
-
-//  Managing register form //
+//  register form //
 registerForm.addEventListener('submit', e => {
   e.preventDefault();
   const email = registerForm['register-email'].value;
@@ -75,6 +70,8 @@ loginForm.addEventListener("submit", (e) => {
       loginForm.querySelector(".error").textContent = err.message;
     });
 });
+
+/// Create request form 
 
 // Sign out 
 signOuts.forEach(signOut => { 
