@@ -159,3 +159,25 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
           return {};
         });
       });
+
+16. To render html based on auth status, or using onSnapshot:
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          loginModal.close();
+          registerModal.close();
+          ref.onSnapshot((snapshot) => {
+            setupUI(snapshot.docs);
+          });
+          hidingModal.close();
+        } else {
+          setupUI(null);
+          hidingModal.open();
+          loginModal.open();
+        }
+      });
+
+16. rendering html based on onSnapshot is not very eficient, because
+    you have to render all the elements, every time there is a
+    change in the database, and even if you want to add events, to
+    elements it is not efficient either. instead you can use Vue 
+    Component:

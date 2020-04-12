@@ -12,11 +12,6 @@ var registerModal = document.querySelector("#register-modal");
 const registerForm = document.querySelector("#register-form");
 const loginForm = document.querySelector("#login-form");
 const signOuts = document.querySelectorAll('.sign-out')
-
-
-
-
-
 // hiding modal
 M.Modal.init(hidingModal, hidingOptions);
 hidingModal = M.Modal.getInstance(hidingModal);
