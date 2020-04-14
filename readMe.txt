@@ -176,8 +176,57 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
         }
       });
 
-16. rendering html based on onSnapshot is not very eficient, because
+17. rendering html based on onSnapshot is not very eficient, because
     you have to render all the elements, every time there is a
     change in the database, and even if you want to add events, to
     elements it is not efficient either. instead you can use Vue 
-    Component:
+    Component
+
+        var app = new Vue({
+          el: "#requests-list",
+          data: {
+            requests: [],
+            as: 'salam'
+          },
+          mounted() {
+            const ref = firebase.firestore().collection('requests');
+            ref.onSnapshot(snapshot => {
+              let requests = [];
+              snapshot.docs.forEach(doc => {
+                requests.push({...doc.data(), id: doc.id});
+              });
+              this.requests = requests;
+            });
+          },
+        });
+
+18. We can use this way to add to a value in database:
+      request.update({
+        upvotes: admin.firestore.FieldValue.increment(1)
+      });
+
+[ATTENTION]
+19. you can return data noramlly in callable functions, or if the 
+  data is going to return after async operation you can do this 
+  by returning the promise:
+  [ATTENTION] promise itself is somehow data, you can return
+      another promise after async function.
+
+    a.  return {
+          firstNumber: firstNumber,
+          secondNumber: secondNumber,
+          operator: '+',
+          operationResult: firstNumber + secondNumber,
+        };
+
+    b.  const sanitizedMessage = sanitizer.sanitizeText(text); 
+          return admin.database().ref('/messages').push({
+            text: sanitizedMessage,
+            author: { uid, name, picture, email },
+          }).then(() => {
+            console.log('New Message written');
+            // Returning the sanitized message to the client.
+            return { text: sanitizedMessage };
+          })
+
+20. We can use async await in cloud functions
