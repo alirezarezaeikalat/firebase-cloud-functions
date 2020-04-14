@@ -117,8 +117,7 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
 
 
 [ATTENTION]
-14. in onCall or onRequest functions we returns value, or response,
-  but in these two auth functions, we don't return anything, if 
+14. in these two auth functions, we don't return anything, if 
   you check the logs of functions, we get error for that, it is 
   convention to return PROMISE in these functions.
 
@@ -136,7 +135,7 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
 
 15. To add request to the app, we must check for the conditions of
     that request, if they are logged in or ... :
-    [pay attention to the return type]
+    
 
       exports.addRequest = functions.https.onCall((data, context) => {
         if(!context.auth) {
@@ -151,12 +150,12 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
             'Request must be no more than 30 character long'
           );
         }
-        return admin.firestore().collection('requests').add({
+         admin.firestore().collection('requests').add({
           text: data.text,
           upvotes: 0
         }).then((doc) => {
           console.log('The request has been created');
-          return {};
+          
         });
       });
 
@@ -230,3 +229,19 @@ Firebase Hosting, Firebase Authentication and Cloud Storage.
           })
 
 20. We can use async await in cloud functions
+
+21. We can use firestore triggers functions: 
+    
+    exports.logActivities = functions.firestore.document('/{collection/{id}}')
+      .onCreate((snap, cotext) => {
+        const collection = context.params.collection;
+        const id = context.params.id;
+        console.log(snap);
+      });
+
+
+22. [ATTENTION]
+    When we deploy the site, we deploy all of, so it is possible
+    that, the rules in firestore.rules file override the rules in
+    firestore rules in firebase console, so always update your 
+    firestore.rules file.
